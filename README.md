@@ -81,45 +81,19 @@ cdss-project/
 
 ## Dataset Options
 
-Recommended datasets:
-
-- [MIMIC-III Clinical Database](https://physionet.org/content/mimiciii/1.4/)
-- [MIMIC-IV Clinical Database](https://physionet.org/content/mimiciv/)
-- Public Kaggle healthcare datasets
-- Synthetic patient data for early prototyping
-
-MIMIC datasets require credentialed access through PhysioNet. If credentialing is not available yet, the system can be developed first with synthetic or public tabular data and later retrained on ICU data.
+Developed with synthetic or public tabular data, will later input ICU data.
 
 The current prototype includes:
 
 - `data/raw/sample_patients.csv` for testing CSV upload
-- `backend/train_model.py` to generate synthetic patient data and train a demo Random Forest model
-- A rule-based fallback predictor if `backend/models/risk_model.pkl` has not been trained yet
-
-## Model Development
-
-The training workflow should include:
-
-1. Load raw patient records from `data/raw/`.
-2. Clean missing values, normalize units, and encode categorical variables.
-3. Engineer clinically meaningful features.
-4. Split data into training, validation, and test sets.
-5. Train baseline models such as Logistic Regression and Random Forest.
-6. Compare advanced models such as XGBoost in a future version.
-7. Evaluate using ROC-AUC, precision, recall, F1 score, and confusion matrix.
-8. Save the best model to `backend/models/risk_model.pkl`.
-9. Generate explainability artifacts for dashboard display.
+- `backend/train_model.py` to generate synthetic patient data
 
 ## Target Performance
-
-Performance depends on the selected dataset and prediction task. A strong benchmark goal after training on a real benchmark dataset is:
 
 - Accuracy: 85%+
 - ROC-AUC: 0.85+
 - High recall for high-risk patients
 - Clear feature explanations for each prediction
-
-In a clinical risk setting, recall and calibration may matter more than raw accuracy because missing a high-risk patient can be more harmful than flagging an additional patient for review.
 
 ## Installation
 
