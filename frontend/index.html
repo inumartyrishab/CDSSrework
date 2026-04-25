@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI CDSS Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Clinical Decision Support</p>
+        <h1>AI Patient Risk Dashboard</h1>
+      </div>
+      <div class="status-pill" id="apiStatus">Checking API</div>
+    </header>
+
+    <main class="layout">
+      <section class="panel form-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Manual Assessment</p>
+            <h2>Patient Vitals</h2>
+          </div>
+          <button class="ghost-button" id="loadDemoButton" type="button">Load demo</button>
+        </div>
+
+        <form id="patientForm" class="patient-form">
+          <label>
+            Patient ID
+            <input name="patient_id" value="P-1042" />
+          </label>
+          <label>
+            Age
+            <input name="age" type="number" min="0" max="120" value="72" required />
+          </label>
+          <label>
+            Heart Rate
+            <input name="heart_rate" type="number" min="25" max="240" value="118" required />
+          </label>
+          <label>
+            Systolic BP
+            <input name="systolic_bp" type="number" min="50" max="260" value="91" required />
+          </label>
+          <label>
+            Diastolic BP
+            <input name="diastolic_bp" type="number" min="30" max="160" value="58" required />
+          </label>
+          <label>
+            Oxygen Saturation
+            <input name="oxygen_saturation" type="number" min="50" max="100" step="0.1" value="89" required />
+          </label>
+          <label>
+            Temperature C
+            <input name="temperature" type="number" min="32" max="43" step="0.1" value="38.7" required />
+          </label>
+          <label>
+            Respiratory Rate
+            <input name="respiratory_rate" type="number" min="5" max="70" value="24" required />
+          </label>
+          <label>
+            Glucose
+            <input name="glucose" type="number" min="35" max="600" value="166" required />
+          </label>
+          <label>
+            Creatinine
+            <input name="creatinine" type="number" min="0.1" max="15" step="0.01" value="1.8" required />
+          </label>
+          <label class="check-row">
+            <input name="has_diabetes" type="checkbox" checked />
+            Diabetes history
+          </label>
+          <label class="check-row">
+            <input name="has_hypertension" type="checkbox" checked />
+            Hypertension history
+          </label>
+
+          <button class="primary-button" type="submit">Predict risk</button>
+        </form>
+      </section>
+
+      <section class="panel result-panel">
+        <p class="eyebrow">Prediction</p>
+        <div class="risk-summary" id="riskSummary">
+          <div class="risk-score low">--</div>
+          <div>
+            <h2>No prediction yet</h2>
+            <p>Submit patient data to calculate risk.</p>
+          </div>
+        </div>
+
+        <div class="meter" aria-label="Risk meter">
+          <span id="riskMeterFill"></span>
+        </div>
+
+        <h3>Top Clinical Signals</h3>
+        <ul class="feature-list" id="featureList">
+          <li>Waiting for prediction data.</li>
+        </ul>
+      </section>
+
+      <section class="panel upload-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Batch Mode</p>
+            <h2>CSV Upload</h2>
+          </div>
+          <a class="ghost-link" href="../data/raw/sample_patients.csv">Sample CSV</a>
+        </div>
+        <input id="csvFile" type="file" accept=".csv" />
+        <p class="helper">
+          Required columns: age, heart_rate, systolic_bp, diastolic_bp,
+          oxygen_saturation, temperature, respiratory_rate, glucose,
+          creatinine, has_diabetes, has_hypertension.
+        </p>
+        <button class="secondary-button" id="uploadButton" type="button">Analyze CSV</button>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Triage Queue</p>
+            <h2>Patient Results</h2>
+          </div>
+          <button class="ghost-button" id="clearButton" type="button">Clear</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Risk</th>
+                <th>Probability</th>
+                <th>Primary signal</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+              <tr>
+                <td colspan="4">No predictions yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>
